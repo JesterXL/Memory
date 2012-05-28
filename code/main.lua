@@ -15,6 +15,7 @@ end
 
 
 local function testButtonBlue()
+	require "com.jessewarden.memory.views.ButtonBlue"
 	local buttonBlue = ButtonBlue:new()
 	buttonBlue.x = 100
 	buttonBlue.y = 100
@@ -24,6 +25,32 @@ local function testButtonBlue()
 		end
 	end
 	buttonBlue:addEventListener("touch", buttonBlue)
+end
+
+local function testButtonYellow()
+	require "com.jessewarden.memory.views.ButtonYellow"
+	local buttonYellow = ButtonYellow:new()
+	buttonYellow.x = 100
+	buttonYellow.y = 100
+	function buttonYellow:touch(event)
+		if event.phase == "began" then
+			self:play()
+		end
+	end
+	buttonYellow:addEventListener("touch", buttonYellow)
+end
+
+local function testButtonGreen()
+	require "com.jessewarden.memory.views.ButtonGreen"
+	local button = ButtonGreen:new()
+	button.x = 100
+	button.y = 100
+	function button:touch(event)
+		if event.phase == "began" then
+			self:play()
+		end
+	end
+	button:addEventListener("touch", button)
 end
 
 local function testAllButtons()
@@ -187,6 +214,8 @@ end
 
 
 --testButtonBlue()
+--testButtonYellow()
+--testButtonGreen()
 --testAllButtons()
 --testMemory()
 --testNoteViewDisable()

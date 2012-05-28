@@ -6,6 +6,7 @@ function BaseButton:new(name, spriteSheetImage)
 	local button = display.newGroup()
 	local anime = nil
 	if BaseButton[name .. "buttonSheet"] == nil then
+
 		local buttonSheet = sprite.newSpriteSheet(spriteSheetImage, 216, 216)
 		BaseButton[name .. "buttonSheet"] = buttonSheet
 		local buttonSet = sprite.newSpriteSet(buttonSheet, 1, 10)

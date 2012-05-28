@@ -4,8 +4,8 @@ Constants.BLUE 					= 2
 Constants.GREEN 				= 3
 Constants.YELLOW 				= 4
 
-Constants.NOTE_VIEW_WIDTH 		= 402
-Constants.NOTE_VIEW_HEIGHT 		= 402
+Constants.NOTE_VIEW_WIDTH 		= 415
+Constants.NOTE_VIEW_HEIGHT 		= 415
 
 Constants.URL_BLOG 				= "http://jessewarden.com"
 Constants.URL_COMPANY			= "http://webappsolution.com"
