@@ -171,6 +171,7 @@ function startThisMug()
 	local stage = display.getCurrentStage()
 	mainView = MainView:new(0, 0, stage.contentWidth, stage.contentHeight)
 	mainView:initialize()
+
 end
 
 

@@ -1,3 +1,4 @@
+
 require "com.jessewarden.core.GameLoop"
 require "com.jessewarden.memory.models.NoteModel"
 require "com.jessewarden.memory.controllers.NoteController"
@@ -7,6 +8,8 @@ require "com.jessewarden.memory.views.CorrectAnimation"
 require "com.jessewarden.memory.views.WrongAnimation"
 require "com.jessewarden.memory.Constants"
 require "com.jessewarden.memory.views.RestartButton"
+require "com.jessewarden.memory.views.AboutButton"
+require "com.jessewarden.memory.views.AboutView"
 
 MainView = {}
 
@@ -17,12 +20,15 @@ function MainView:new(startX, startY, startWidth, startHeight)
 	main.x = startX
 	main.y = startY
 
+	main.holder = display.newGroup()
+	main:insert(main.holder)
+
 	function main:initialize()
 		local loop = GameLoop:new()
 		self.loop = loop
 
 		local noteView = NoteView:new()
-		self:insert(noteView)
+		self.holder:insert(noteView)
 		self.noteView = noteView
 		noteView.x = (startWidth / 2) - (Constants.NOTE_VIEW_WIDTH / 2)
 		noteView.y = (startHeight / 2) - (Constants.NOTE_VIEW_HEIGHT / 2)
@@ -34,19 +40,19 @@ function MainView:new(startX, startY, startWidth, startHeight)
 		self.noteController = noteController
 
 		local correctAnimation = CorrectAnimation:new()
-		self:insert(correctAnimation)
+		self.holder:insert(correctAnimation)
 		self.correctAnimation = correctAnimation
 		correctAnimation.x = (startWidth / 2) - (correctAnimation.width / 2)
 		correctAnimation.y = (noteView.y / 2) - correctAnimation.height
 
 		local wrongAnimation = WrongAnimation:new()
-		self:insert(wrongAnimation)
+		self.holder:insert(wrongAnimation)
 		self.wrongAnimation = wrongAnimation
 		wrongAnimation.x = (startWidth / 2) - (wrongAnimation.width / 2)
 		wrongAnimation.y = (noteView.y / 2) - wrongAnimation.height
 
 		local restartButton = RestartButton:new()
-		self:insert(restartButton)
+		self.holder:insert(restartButton)
 		self.restartButton = restartButton
 		restartButton.x = noteView.x + (Constants.NOTE_VIEW_WIDTH / 2) - (restartButton.width / 2)
 		restartButton.y = noteView.y + (Constants.NOTE_VIEW_HEIGHT / 2) - (restartButton.height / 2)
@@ -59,6 +65,19 @@ function MainView:new(startX, startY, startWidth, startHeight)
 		restartButton:addEventListener("touch", restartButton)
 
 		noteController:initialize()
+
+		local aboutButton = AboutButton:new()
+		self.holder:insert(aboutButton)
+		self.aboutButton = aboutButton
+		aboutButton.x = startWidth - (aboutButton.width)
+		aboutButton.y = startHeight - aboutButton.height
+		function aboutButton:touch(event)
+			if event.phase == "began" then
+				main:showAboutScreen()
+				return true
+			end
+		end
+		aboutButton:addEventListener("touch", aboutButton)
 	end
 
 	function main:onPlayerChoiceCorrect(event)
@@ -67,9 +86,34 @@ function MainView:new(startX, startY, startWidth, startHeight)
 	end
 
 	function main:onPlayerChoiceWrong(event)
-		print("telling wrong to show")
 		self.correctAnimation:abort()
 		self.wrongAnimation:start()
+	end
+
+	function main:cancelExistingScreenTransitions()
+		if self.aboutTransition ~= nil then
+			transition.cancel(self.aboutTransition)
+			self.aboutTransition = nil
+		end
+
+		if self.holderTransition ~= nil then
+			transition.cancel(self.holderTransition)
+			self.holderTransition = nil
+		end
+	end
+
+	function main:showAboutScreen()
+		self.loop:pause()
+		self:cancelExistingScreenTransitions()
+
+		self.holderTransition = transition.to(self.holder, {time=1000, x=-startWidth, transition=easing.inOutExpo})
+
+
+		local aboutView = AboutView:new()
+		aboutView.x = startWidth + 1
+		self:insert(aboutView)
+		self.aboutView = aboutView
+		self.aboutTransition = transition.to(aboutView, {time=1000, x=0, transition=easing.inOutExpo})
 	end
 
 	Runtime:addEventListener("onPlayerChoiceWrong", main)
