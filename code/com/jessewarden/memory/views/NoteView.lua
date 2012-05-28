@@ -1,4 +1,8 @@
-require "Constants"
+require "com.jessewarden.memory.Constants"
+require "com.jessewarden.memory.views.ButtonRed"
+require "com.jessewarden.memory.views.ButtonBlue"
+require "com.jessewarden.memory.views.ButtonGreen"
+require "com.jessewarden.memory.views.ButtonYellow"
 
 NoteView = {}
 
@@ -10,18 +14,22 @@ function NoteView:new()
 		local buttonRed = ButtonRed:new()
 		buttonRed.x = 100
 		buttonRed.y = 100
+		self:insert(buttonRed)
 
 		local buttonBlue = ButtonBlue:new()
 		buttonBlue.x = 316
 		buttonBlue.y = 100
+		self:insert(buttonBlue)
 
 		local buttonGreen = ButtonGreen:new()
 		buttonGreen.x = 100
 		buttonGreen.y = 316
+		self:insert(buttonGreen)
 
 		local buttonYellow = ButtonYellow:new()
 		buttonYellow.x = 316
 		buttonYellow.y = 316
+		self:insert(buttonYellow)
 
 		buttonRed:addEventListener("touch", self)
 		buttonBlue:addEventListener("touch", self)

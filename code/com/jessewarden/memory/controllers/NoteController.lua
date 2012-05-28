@@ -1,3 +1,7 @@
+-- Events:
+--		onPlayerChoiceWrong
+--		onPlayerChoiceCorrect
+
 NoteController = {}
 
 function NoteController:new(gameLoop, noteView, noteModel)
@@ -47,7 +51,6 @@ function NoteController:new(gameLoop, noteView, noteModel)
 		local done = false
 		self.elapsedTime = self.elapsedTime + time
 		if self.elapsedTime >= self.TIMEOUT then
-			print("timeout")
 			local model = self.model
 			if model:hasAnotherNoteToPlayback() then
 				local currentNote = model:getNextNoteToPlay()
@@ -80,12 +83,14 @@ function NoteController:new(gameLoop, noteView, noteModel)
 		if usersTouchedNote ~= correctNote then
 			-- user touched the wrong order
 			print("controller::onNoteButtonPressed, INCORRECT...")
+			Runtime:dispatchEvent({name = "onPlayerChoiceWrong", target = self})
 			self:resetGame()
 			return true
 		else
 			-- user pressed correct sequence
 			print("controller::onNoteButtonPressed, Correct!")
 			print("current index: ", self.currentUserIndex, ", total notes: ", #notes)
+			Runtime:dispatchEvent({name = "onPlayerChoiceCorrect", target = self})
 			if self.currentUserIndex + 1 <= table.maxn(notes) then
 				-- more to go
 				self.currentUserIndex = self.currentUserIndex + 1

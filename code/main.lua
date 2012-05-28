@@ -1,7 +1,3 @@
-require "ButtonBlue"
-require "ButtonYellow"
-require "ButtonRed"
-require "ButtonGreen"
 
 display.setStatusBar( display.HiddenStatusBar )
 
@@ -110,18 +106,64 @@ local function testModelIteration()
 
 end
 
+local function testCorrectAnimation()
+	require "com.jessewarden.memory.views.CorrectAnimation"
+	local anime = CorrectAnimation:new()
+	local stage = display.getCurrentStage()
+	anime.x = (stage.contentWidth / 2) - (anime.width / 2)
+	anime.y = 200
+	anime:start()
+
+	-- try to break it
+	--[[
+	local t = {}
+	function t:timer(event)
+		anime:start()
+	end
+	t.handler = timer.performWithDelay(600, t, 6)
+
+	local cow = {}
+	function cow:timer(event)
+		anime:start()
+	end
+	cow.handler = timer.performWithDelay(6 * 1000, cow, 1)
+	]]--
+end
+
 local function testMainController()
 	require "com.jessewarden.core.GameLoop"
 	require "com.jessewarden.memory.models.NoteModel"
 	require "com.jessewarden.memory.controllers.NoteController"
 	require "com.jessewarden.memory.views.NoteView"
 
+	require "com.jessewarden.memory.views.CorrectAnimation"
+	require "com.jessewarden.memory.Constants"
+
+	local stage = display.getCurrentStage()
+
 	local loop = GameLoop:new()
 	local view = NoteView:new()
+	view.x = (stage.contentWidth / 2) - (Constants.NOTE_VIEW_WIDTH / 2)
+	view.y = stage.contentHeight - Constants.NOTE_VIEW_HEIGHT - 20
+
 	local model = NoteModel:new()
 	local controller = NoteController:new(loop, view, model)
+
+	local correctAnimation = CorrectAnimation:new()
+	correctAnimation.x = (stage.contentWidth / 2) - (correctAnimation.width / 2)
+	correctAnimation.y = 20
+
 	controller:initialize()
 end
+
+function startThisMug()
+	require "com.jessewarden.memory.views.MainView"
+
+	local stage = display.getCurrentStage()
+	mainView = MainView:new(0, 0, stage.contentWidth, stage.contentHeight)
+	mainView:initialize()
+end
+
 
 
 --testButtonBlue()
@@ -130,4 +172,7 @@ end
 --testNoteViewDisable()
 --testStateMachineLibrary()
 --testModelIteration()
-testMainController()
+--testCorrectAnimation()
+--testMainController()
+
+startThisMug()
