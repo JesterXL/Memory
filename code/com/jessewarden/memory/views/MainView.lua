@@ -79,6 +79,13 @@ function MainView:new(startX, startY, startWidth, startHeight)
 			end
 		end
 		aboutButton:addEventListener("touch", aboutButton)
+
+		local memoryLogo = display.newImage("memory_logo.png")
+		memoryLogo:setReferencePoint(display.TopLeftReferencePoint)
+		self.holder:insert(memoryLogo)
+		self.memoryLogo = memoryLogo
+		memoryLogo.x = 4
+		memoryLogo.y = startHeight - (memoryLogo.height + 4)
 	end
 
 	function main:onPlayerChoiceCorrect(event)

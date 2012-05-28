@@ -3,6 +3,7 @@ AboutButton = {}
 function AboutButton:new()
 	local button = display.newImage("button_about.png")
 	button:setReferencePoint(display.TopLeftReferencePoint)
+	--[[
 	button.alpha = 0.4
 
 	function button:cancelExistingTweens()
@@ -22,6 +23,7 @@ function AboutButton:new()
 	end
 
 	button:addEventListener("touch", button)
+	]]--
 
 	return button
 end
