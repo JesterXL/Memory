@@ -24,36 +24,35 @@ function AboutView:new()
 		self:insert(title)
 		self.title = title
 
-		self.buttonBlog 		= self:getImageButton("about_screen_button_blog.png", "blog")
-		self.buttonCompany 		= self:getImageButton("about_screen_button_company.png", "company")
-		self.buttonTwitter 		= self:getImageButton("about_screen_button_twitter.png", "twitter")
-		self.buttonLinkedIn 	= self:getImageButton("about_screen_button_linkedin.png", "linkedin")
-		self.buttonGooglePlus 	= self:getImageButton("about_screen_button_googleplus.png", "googleplus")
+		tweenDelay				= 700
+		tweenIncrement 			= 100
+		self.buttonBlog 		= self:getImageButton("about_screen_button_blog.png", "blog", 19, 150, tweenDelay)
+		tweenDelay				= tweenDelay + tweenIncrement
+
+		self.buttonCompany 		= self:getImageButton("about_screen_button_company.png", "company", 19, 280, tweenDelay)
+		tweenDelay				= tweenDelay + tweenIncrement
+
+		self.buttonTwitter 		= self:getImageButton("about_screen_button_twitter.png", "twitter", 19, 410, tweenDelay)
+		tweenDelay				= tweenDelay + tweenIncrement
+
+		self.buttonLinkedIn 	= self:getImageButton("about_screen_button_linkedin.png", "linkedin", 19, 540, tweenDelay)
+		tweenDelay				= tweenDelay + tweenIncrement
+
+		self.buttonGooglePlus 	= self:getImageButton("about_screen_button_googleplus.png", "googleplus", 19, 670, tweenDelay)
+		tweenDelay				= tweenDelay + tweenIncrement
 
 		title.x = 208
 		title.y = 10
 
-		backButton.x = 19
+		--backButton.x = 19
 		backButton.y = 1
-
-		self.buttonBlog.x = 19
-		self.buttonBlog.y = 150
-
-		self.buttonCompany = 19
-		self.buttonCompany = 280
-
-		self.buttonTwitter = 19
-		self.buttonTwitter = 410
-
-		self.buttonLinkedIn = 19
-		self.buttonLinkedIn = 540
-
-		self.buttonGooglePlus.x = 19
-		self.buttonGooglePlus.y = 670
+		backButton.x = 39
+		backButton.alpha = 0
+		backButton.tween = transition.to(backButton, {time=1000, delay=tweenDelay, alpha=1, x=19, transition=easing.outExpo})
 
 	end
 
-	function view:getImageButton(imageURL, name)
+	function view:getImageButton(imageURL, name, targetX, targetY, tweenDelay)
 		local image = display.newImage(imageURL, true)
 		image:setReferencePoint(display.TopLeftReferencePoint)
 		self:insert(image)
@@ -64,6 +63,10 @@ function AboutView:new()
 			end
 		end
 		image.name = name
+		image.x = targetX
+		image.alpha = 0
+		image.y = targetY - 40
+		image.tween = transition.to(image, {time=300, delay=tweenDelay, alpha=1, y=targetY, transition=easing.outExpo})
 		return image
 	end
 

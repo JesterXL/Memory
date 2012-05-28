@@ -19,6 +19,7 @@ function MainView:new(startX, startY, startWidth, startHeight)
 
 	main.x = startX
 	main.y = startY
+	main.SCREEN_TRANSITION_SPEED = 700
 
 	main.holder = display.newGroup()
 	main:insert(main.holder)
@@ -106,14 +107,41 @@ function MainView:new(startX, startY, startWidth, startHeight)
 		self.loop:pause()
 		self:cancelExistingScreenTransitions()
 
-		self.holderTransition = transition.to(self.holder, {time=1000, x=-startWidth, transition=easing.inOutExpo})
+		self.holderTransition = transition.to(self.holder, {time=self.SCREEN_TRANSITION_SPEED, x=-startWidth, transition=easing.inOutExpo})
 
 
 		local aboutView = AboutView:new()
 		aboutView.x = startWidth + 1
 		self:insert(aboutView)
+		function aboutView:onBackButtonTouched(event)
+			main:hideAboutScreen()
+		end
+		aboutView:addEventListener("onBackButtonTouched", aboutView)
 		self.aboutView = aboutView
-		self.aboutTransition = transition.to(aboutView, {time=1000, x=0, transition=easing.inOutExpo})
+		self.aboutTransition = transition.to(aboutView, {time=self.SCREEN_TRANSITION_SPEED, x=0, transition=easing.inOutExpo})
+	end
+
+	function main:hideAboutScreen()
+		self.loop:pause()
+		self:cancelExistingScreenTransitions()
+
+		self.holderTransition = transition.to(self.holder, {time=self.SCREEN_TRANSITION_SPEED, x=0, transition=easing.inOutExpo})
+
+		if self.aboutView ~= nil then
+			self.aboutTransition = transition.to(self.aboutView, {time=self.SCREEN_TRANSITION_SPEED, x=startWidth + 1, alpha=0, transition=easing.inOutExpo, onComplete=function(target) main:onAboutAnimationComplete() end})
+		end
+	end
+
+	function main:onAboutAnimationComplete()
+		if self.aboutTransition ~= nil then
+			transition.cancel(self.aboutTransition)
+			self.aboutTransition = nil
+		end
+
+		self.aboutView:removeSelf()
+		self.aboutView = nil
+
+		self.loop:start()
 	end
 
 	Runtime:addEventListener("onPlayerChoiceWrong", main)

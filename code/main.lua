@@ -169,6 +169,14 @@ function startThisMug()
 	require "com.jessewarden.memory.views.MainView"
 
 	local stage = display.getCurrentStage()
+
+	-- [jwarden 5.28.2012] Just used to show true background size
+	--[[
+	local rect = display.newRect(stage.xOrigin, stage.yOrigin, stage.contentWidth, stage.contentHeight)
+	rect:setFillColor(255, 0, 0, 125) 
+	rect:setStrokeColor(255, 0, 0) 
+	rect.strokeWidth = 4
+	]]--
 	mainView = MainView:new(0, 0, stage.contentWidth, stage.contentHeight)
 	mainView:initialize()
 
