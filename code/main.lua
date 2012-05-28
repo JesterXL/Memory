@@ -156,6 +156,15 @@ local function testMainController()
 	controller:initialize()
 end
 
+local function testWrongAnimation()
+	require "com.jessewarden.memory.views.WrongAnimation"
+	local test = WrongAnimation:new()
+	test.x = 200
+	test.y = 100
+	test:start()
+
+end
+
 function startThisMug()
 	require "com.jessewarden.memory.views.MainView"
 
@@ -163,6 +172,8 @@ function startThisMug()
 	mainView = MainView:new(0, 0, stage.contentWidth, stage.contentHeight)
 	mainView:initialize()
 end
+
+
 
 
 
@@ -174,5 +185,6 @@ end
 --testModelIteration()
 --testCorrectAnimation()
 --testMainController()
+--testWrongAnimation()
 
 startThisMug()

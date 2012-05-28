@@ -90,27 +90,30 @@ function NoteView:new()
 		self.enabled = enable
 	end
 
-	function notes:playNote(type)
+	function notes:playNote(type, playSound)
 		--[[
 		Constants.RED 		= 1
 		Constants.BLUE 		= 2
 		Constants.GREEN 	= 3
 		Constants.YELLOW 	= 4
 		]]--
+		if playSound ~= false then playSound = true end
+
 		if type == Constants.RED then
-			self:playSound(self.soundRed)
+			if playSound == true then self:playSound(self.soundRed) end
 			self.buttonRed:play()
 		elseif type == Constants.BLUE then 
-			self:playSound(self.soundBlue)
+			if playSound == true then self:playSound(self.soundBlue) end
 			self.buttonBlue:play()
 		elseif type == Constants.GREEN then
-			self:playSound(self.soundGreen)
+			if playSound == true then self:playSound(self.soundGreen) end
 			self.buttonGreen:play()
 		elseif type == Constants.YELLOW then
-			self:playSound(self.soundYellow)
+			if playSound == true then self:playSound(self.soundYellow) end
 			self.buttonYellow:play()
 		else
 			error("Unknown note type.")
+			return false
 		end
 	end
 

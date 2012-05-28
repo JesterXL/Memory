@@ -11,6 +11,16 @@ function GameLoop:new()
 	gameLoop.paused = true
 	gameLoop.stage = display.getCurrentStage()
 
+	function gameLoop:has(o)
+		local tickers = self.tickers
+		for i,v in ipairs(tickers) do
+			if(v == o) then
+				return true
+			end
+		end
+		return false
+	end
+
 	function gameLoop:addLoop(o)
 		--print("GameLoop::addLoop", o)
 		assert(o ~= nil, "You cannot pass nil values to the game loop")

@@ -21,6 +21,11 @@ function CorrectAnimation:new()
 		anime.handle = transition.to(self, {time=300, alpha = 1, onComplete=self.onFadeInComplete})
 	end
 
+	function anime:abort()
+		anime:cancelExistingAnimes()
+		self.alpha = 0
+	end
+
 	function anime.onFadeInComplete(target)
 		anime:cancelExistingAnimes()
 		anime.handle = transition.to(anime, {time=300, alpha=0, delay=500, onComplete=anime.onFadeOutComplete})
