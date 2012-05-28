@@ -32,6 +32,11 @@ function NoteView:new()
 		self.buttonBlue = buttonBlue
 		self.buttonYellow = buttonYellow
 		self.buttonGreen = buttonGreen
+
+		self.soundRed = audio.loadSound("sound_button_01.wav")
+		self.soundBlue = audio.loadSound("sound_button_02.wav")
+		self.soundGreen = audio.loadSound("sound_button_03.wav")
+		self.soundYellow = audio.loadSound("sound_button_04.wav")
 	end
 
 	function notes:touch(event)
@@ -46,22 +51,31 @@ function NoteView:new()
 		Constants.YELLOW 	= 4
 		]]--
 		if event.phase == "began" then
+			event.target:play()
 			if event.target == self.buttonRed then
+				self:playSound(self.soundRed)
 				self:dispatchEvent({name = "onNoteButtonPressed", target = self, value = Constants.RED})
 				return true
 			elseif event.target == self.buttonBlue then
+				self:playSound(self.soundBlue)
 				self:dispatchEvent({name = "onNoteButtonPressed", target = self, value = Constants.BLUE})
 				return true
 			elseif event.target == self.buttonGreen then
+				self:playSound(self.soundGreen)
 				self:dispatchEvent({name = "onNoteButtonPressed", target = self, value = Constants.GREEN})
 				return true
 			elseif event.target == self.buttonYellow then
+				self:playSound(self.soundYellow)
 				self:dispatchEvent({name = "onNoteButtonPressed", target = self, value = Constants.YELLOW})
 				return true
 			else
 				error("Unknown button touched for target: ", event.target)
 			end
 		end
+	end
+
+	function notes:playSound(sound)
+		audio.play(sound)
 	end
 
 	function notes:setEnabled(enable)
@@ -76,12 +90,16 @@ function NoteView:new()
 		Constants.YELLOW 	= 4
 		]]--
 		if type == Constants.RED then
+			self:playSound(self.soundRed)
 			self.buttonRed:play()
 		elseif type == Constants.BLUE then 
+			self:playSound(self.soundBlue)
 			self.buttonBlue:play()
 		elseif type == Constants.GREEN then
+			self:playSound(self.soundGreen)
 			self.buttonGreen:play()
 		elseif type == Constants.YELLOW then
+			self:playSound(self.soundYellow)
 			self.buttonYellow:play()
 		else
 			error("Unknown note type.")
