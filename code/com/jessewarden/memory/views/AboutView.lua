@@ -62,6 +62,7 @@ function AboutView:new()
 				return true
 			end
 		end
+		image:addEventListener("touch", image)
 		image.name = name
 		image.x = targetX
 		image.alpha = 0

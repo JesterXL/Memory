@@ -193,6 +193,7 @@ local function testWrongAnimation()
 end
 
 function startThisMug()
+	display.setStatusBar( display.HiddenStatusBar )
 	require "com.jessewarden.memory.views.MainView"
 
 	local stage = display.getCurrentStage()
@@ -208,6 +209,8 @@ function startThisMug()
 	mainView:initialize()
 
 end
+
+
 
 
 

@@ -86,6 +86,21 @@ function MainView:new(startX, startY, startWidth, startHeight)
 		self.memoryLogo = memoryLogo
 		memoryLogo.x = 4
 		memoryLogo.y = startHeight - (memoryLogo.height + 4)
+
+		Runtime:addEventListener("system", self)
+	end
+
+	function main:onSystemEvent(event)
+		if event.type == "applicationExit" or event.type == "applicationSuspend" then
+			--os.exit()
+			if self.loop ~= nil and self.loop.paused == false then
+				self.loop:pause()
+			end
+		elseif event.type == "applicationResume" then
+			if self.loop ~= nil and self.loop.paused == true then
+				self.loop:start()
+			end
+		end
 	end
 
 	function main:onPlayerChoiceCorrect(event)
